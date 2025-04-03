@@ -1,26 +1,133 @@
+/* Font imports must come first */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* Then Tailwind layers */
+@import "tailwindcss" layer(base);
+@import "tailwindcss" layer(components);
+@import "tailwindcss" layer(utilities);
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light theme */
+  --background: #0f172a;       /* Dark blue background */
+  --foreground: #f8fafc;       /* Light text */
+  --primary: #0ea5e9;          /* Sky blue */
+  --secondary: #e11d48;        /* Rose red */
+  --accent: #f59e0b;           /* Amber */
+  --glass: rgba(15, 23, 42, 0.8); /* Glass effect */
+  --neon-glare: 0 0 10px #0ea5e9; /* Neon glow effect */
 }
 
 @theme inline {
+  /* Color system */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  
+  /* Font system */
+  --font-space: 'Space Grotesk', sans-serif;
+  --font-orbitron: 'Orbitron', sans-serif;
+  
+  /* Effects */
+  --neon-glare: var(--neon-glare);
+  --glass-backdrop: blur(16px) saturate(180%);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* Base styles */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-space);
+  line-height: 1.6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+/* Animation keyframes */
+@keyframes neon-pulse {
+  0%, 100% { box-shadow: var(--neon-glare); }
+  50% { box-shadow: var(--neon-glare), 0 0 20px var(--primary); }
+}
+
+/* Utility classes */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .glass-effect {
+    background: var(--glass);
+    backdrop-filter: var(--glass-backdrop);
+  }
+  
+  .neon-border {
+    border: 1px solid var(--primary);
+    animation: neon-pulse 2s infinite;
+  }
+  .bg-glass {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px) saturate(160%);
+  }
+  
+  .shadow-neon {
+    box-shadow: 0 0 30px rgba(14, 165, 233, 0.4);
+  }
+  
+  .text-stroke {
+    -webkit-text-stroke: 1px var(--primary);
+    text-stroke: 1px var(--primary);
+  }
+
+  .cyber-gradient {
+    background: linear-gradient(
+      45deg,
+      var(--primary) 0%,
+      var(--secondary) 50%,
+      var(--accent) 100%
+    );
+  }
+  
+  .text-cyber {
+    text-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+  }
+  
+  .glass-panel {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+  }
+}
+.clip-path-triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.bg-gradient-radial {
+  background: radial-gradient(circle, var(--tw-gradient-from), var(--tw-gradient-to));
+}
+
+@keyframes hologram-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+.animate-hologram {
+  animation: hologram-pulse 3s infinite;
 }
