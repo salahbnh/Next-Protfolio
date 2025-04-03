@@ -1,7 +1,7 @@
 'use client';
-import { motion, useAnimation } from 'framer-motion';
 import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { motion, useAnimation } from 'framer-motion';
 
 const GeometricBackground = dynamic(
   () => import('./GeometricBackground'),
@@ -15,7 +15,7 @@ const QuantumParticles = dynamic(
 
 export default function Hero() {
   const controls = useAnimation();
-
+  
   useEffect(() => {
     controls.start('visible');
   }, [controls]);
@@ -30,7 +30,8 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-dark">
+    <section className="h-screen relative overflow-hidden">
+    
       <GeometricBackground />
       <QuantumParticles />
 

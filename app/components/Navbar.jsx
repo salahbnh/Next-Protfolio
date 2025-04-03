@@ -49,7 +49,6 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
             {navItems.map((item) => (
-
               <motion.a
                 key={item.name}
                 href={item.href}
@@ -60,7 +59,6 @@ const Navbar = () => {
                 className="relative px-3 py-2 text-lg font-medium"
                 style={{ color: 'var(--foreground)' }}
               >
-              
                 {item.name}
                 <motion.span
                   className="absolute bottom-0 left-0 w-full h-0.5 bg-primary"

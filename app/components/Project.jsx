@@ -1,9 +1,9 @@
 'use client';
-import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import GeometricBackground from "./hero/GeometricBackground";
 import QuantumParticles from "./hero/QuantumParticles";
 import { XMarkIcon } from '@heroicons/react/24/outline';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const projects = [
   {
@@ -110,9 +110,8 @@ function ProjectModal({ project, onClose }) {
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
 
-
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-dark">
+    <section className="h-screen relative overflow-hidden">
       <GeometricBackground />
       <QuantumParticles />
 
