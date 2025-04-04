@@ -4,6 +4,8 @@ import Hero from './components/hero/index';
 import Projects from './components/Project';
 import ScrollReveal from './components/ScrollReveal';
 import Skills from './components/skills';
+import ServicesSection from './components/services';
+import ContactSection from './components/contact/ContactSection';
 
 function Home() {
   return (
@@ -22,6 +24,16 @@ function Home() {
       <section id="skills">
         <ScrollReveal>
           <Skills />
+        </ScrollReveal>
+      </section>
+      <section id="services">
+        <ScrollReveal>
+          <ServicesSection />
+        </ScrollReveal>
+      </section>
+      <section id="contact">
+        <ScrollReveal>
+          <ContactSection/>
         </ScrollReveal>
       </section>
     </main>

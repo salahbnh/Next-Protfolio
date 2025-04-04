@@ -62,21 +62,6 @@ export default function Skills() {
       setDrop(false);
     };
   }, [inView]);
-
-  // Compute grid positions: 5 icons per row.
-  // Spacing of 3 units; center the grid horizontally.
-//   const positions = SKILLS.map((_, i) => {
-//     const col = i % 5;
-//     const row = Math.floor(i / 5);
-//     const spacing = 2;
-//     // Center x around 0: (col - 2)*spacing (because 5 columns, center at column index 2)
-//     const x = (col - 2) * spacing;
-//     // y is constant (e.g. 5 units above the ground)
-//     const y = 5;
-//     // z increases with each row; adjust as needed (or use a negative value if you prefer)
-//     const z = row * spacing;
-//     return [x, y, z];
-//   });
   
 
   // After 2 seconds, trigger the drop by switching the physics type.

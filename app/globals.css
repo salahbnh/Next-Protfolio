@@ -154,3 +154,31 @@ html {
   background-clip: text;
   color: transparent;
 }
+@keyframes waves {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-waves {
+  animation: waves 20s linear infinite;
+}
+
+/* Card hover effect */
+.group:hover .service-icon {
+  transform: rotate(15deg) scale(5.1);
+}
+@keyframes hologram-flicker {
+  0% { opacity: 0.8; }
+  20% { opacity: 0.6; }
+  40% { opacity: 0.9; }
+  60% { opacity: 0.7; }
+  80% { opacity: 0.85; }
+  100% { opacity: 0.8; }
+}
+
+@keyframes input-glow {
+  0% { box-shadow: 0 0 10px rgba(14, 165, 233, 0); }
+  50% { box-shadow: 0 0 15px rgba(14, 165, 233, 0.3); }
+  100% { box-shadow: 0 0 15px rgba(233, 189, 14, 0.3); }
+}

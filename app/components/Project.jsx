@@ -26,7 +26,7 @@ const projects = [
     description: "A Unity 3D project simulating a triple pendulum system using custom-built physics in C#. The simulation is based on mathematical models and scientific papers, bypassing Unity’s built-in physics. Spheres represent the pendulum masses, and the system demonstrates chaotic behavior with sensitive dependence on initial conditions, leading to unpredictable motion dynamics.",
     tools: ["Unity 3D", "C#", "Research-Driven Mathematical Physics"],
     link:"#"
-  },
+  }
 ];
 
 function ProjectCard({ project, onClick }) {
@@ -111,7 +111,7 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   return (
-    <section className="h-screen relative overflow-hidden">
+    <section className=" relative overflow-hidden">
       <GeometricBackground />
       <QuantumParticles />
 
