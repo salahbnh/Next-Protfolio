@@ -6,6 +6,9 @@ import ScrollReveal from './components/ScrollReveal';
 import Skills from './components/skills';
 import ServicesSection from './components/services';
 import ContactSection from './components/contact/ContactSection';
+import Footer from './components/footer';
+
+
 
 function Home() {
   return (
@@ -22,9 +25,9 @@ function Home() {
         </ScrollReveal>
       </section>
       <section id="skills">
-        <ScrollReveal>
+        {/* <ScrollReveal> */}
           <Skills />
-        </ScrollReveal>
+        {/* </ScrollReveal> */}
       </section>
       <section id="services">
         <ScrollReveal>
@@ -34,6 +37,11 @@ function Home() {
       <section id="contact">
         <ScrollReveal>
           <ContactSection/>
+        </ScrollReveal>
+      </section>
+      <section id="footer">
+        <ScrollReveal>
+          <Footer/>
         </ScrollReveal>
       </section>
     </main>

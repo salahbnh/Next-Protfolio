@@ -105,6 +105,7 @@ export default function Hero() {
 
           {/* CTA Button */}
           <motion.div variants={textVariants} >
+          <a href="#projects">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -115,6 +116,7 @@ export default function Hero() {
               </span>
               <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
             </motion.button>
+          </a>
           </motion.div>
         </div>
       </motion.div>

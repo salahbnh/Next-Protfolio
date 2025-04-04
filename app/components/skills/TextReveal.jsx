@@ -46,11 +46,11 @@ export default function TextReveal({ reveal }) {
           Technical Expertise
         </h2>
         <p className="mt-4 text-light/80 font-space max-w-xl">
-          Mastery across modern development stacks and cutting-edge technologies and programing languages
+          Mastery across modern development stacks, cutting-edge technologies and programing languages
         </p>
 
         {/* Skill Icons Grid */}
-        <div className="mt-6 grid grid-cols-5 gap-4">
+        <div className="mt-6 grid sm:grid-cols-5 grid-cols-4 gap-4">
           {SKILLS.map((skill, index) => (
             <div key={index} className="flex flex-col items-center">
               <img
@@ -58,7 +58,7 @@ export default function TextReveal({ reveal }) {
                 alt={skill.name}
                 className="w-16 h-16 md:w-20 md:h-20 object-contain"
               />
-              <p className="mt-2 text-sm text-white">{skill.name}</p>
+              <p className="mt-2 text-sm  text-white">{skill.name}</p>
             </div>
           ))}
         </div>

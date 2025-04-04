@@ -123,7 +123,7 @@ export default function Projects() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-orbitron text-primary mb-4">
+          <h2 className="text-4xl md:text-5xl font-orbitron text-gradient mb-4">
             My Projects
           </h2>
           <p className="text-light/80 font-space max-w-2xl mx-auto">

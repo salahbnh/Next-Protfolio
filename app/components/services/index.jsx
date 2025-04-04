@@ -91,6 +91,7 @@ export default function ServicesSection() {
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     transition={{ delay: index * 0.1 + 0.2 }}
+                    viewport={{ once: true, amount: 0.3 }}
                     className="inline-block p-4 rounded-xl bg-primary/10"
                   >
                     {service.icon}

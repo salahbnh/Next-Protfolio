@@ -3,12 +3,15 @@ import { FaGithub, FaLinkedin, FaTwitter, FaDiscord } from 'react-icons/fa';
 import ContactForm from './ContactForm';
 import Socials from './Socials';
 import { motion } from 'framer-motion';
-
+import GeometricBackground from '../hero/GeometricBackground';
+import QuantumParticles from '../hero/QuantumParticles';
 
 
 export default function ContactSection() {
   return (
     <section id="contact" className="min-h-screen py-20 px-4 md:px-8 lg:px-16 glass-effect">
+          <GeometricBackground />
+          <QuantumParticles />
       <div className="max-w-7xl mx-auto">
       <motion.div
           initial={{ opacity: 0, y: 20 }}
