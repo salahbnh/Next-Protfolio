@@ -2,26 +2,35 @@
 'use client';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { sendEmail } from '../../lib/actions'
 
 export default function ContactForm() {
-  const [status, setStatus] = useState('idle');
-  const [error, setError] = useState('');
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setStatus('loading');
-    
-    const formData = new FormData(e.target);
-    try {
-      await sendEmail(formData);
-      setStatus('success');
-      e.target.reset();
-    } catch (err) {
-      setError(err.message);
-      setStatus('error');
+    const [status, setStatus] = useState('idle');
+    const [error, setError] = useState('');
+  
+    async function handleSubmit(e) {
+      e.preventDefault();
+      setStatus('loading');
+  
+      const formData = new FormData(e.target);
+  
+      try {
+        const response = await fetch('/api/sendEmail', {
+          method: 'POST',
+          body: formData,
+        });
+        const result = await response.json();
+  
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to send message.');
+        }
+  
+        setStatus('success');
+        e.target.reset();
+      } catch (err) {
+        setError(err.message);
+        setStatus('error');
+      }
     }
-  }
 
   return (
     <motion.form 
