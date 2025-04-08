@@ -3,10 +3,12 @@
 import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaRegEnvelope, FaRocket, FaTwitter, FaDiscord} from 'react-icons/fa';
 import { RiShieldStarLine } from 'react-icons/ri';
+import Image from 'next/image';
+import img from '../../public/me.jpg'
 
 export default function Footer() {
   return (
-    <footer className="relative border-t border-slate-800 mt-32 overflow-hidden">
+    <footer className="relative border-t  border-slate-800   glass-effect mt-32 overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0ea5e911] to-transparent opacity-30 animate-waves" />
       
@@ -32,7 +34,17 @@ export default function Footer() {
             whileInView={{ opacity: 1 }}
             className="space-y-4"
           >
-            <h3 className="font-orbitron text-lg text-primary mb-4">Transmission Hub</h3>
+            <h3 className="flex gap-4 font-orbitron justify-start items-center  text-lg text-primary mb-4">
+                <span>
+                    <div
+                    className="rounded-full w-10 h-10 bg-cover bg-center"
+                    style={{
+                        backgroundImage: `url(${img.src})`
+                    }}
+                    ></div>
+                </span>
+                Transmission Hub 
+            </h3>
             <div className="space-y-3">
               <a href="mailto:salah.bounouh420@gmail.com" className="flex items-center gap-3 hover:text-primary transition-colors">
                 <FaRegEnvelope className="flex-shrink-0" />

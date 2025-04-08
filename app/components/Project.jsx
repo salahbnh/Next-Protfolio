@@ -1,7 +1,5 @@
 'use client';
 import { useState } from 'react';
-import GeometricBackground from "./hero/GeometricBackground";
-import QuantumParticles from "./hero/QuantumParticles";
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -63,15 +61,15 @@ function ProjectModal({ project, onClose }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-dark/90 backdrop-blur-xl p-8 flex items-center justify-center"
+        className="fixed inset-0 z-[9999] bg-dark/90 backdrop-blur-xl p-8 top-20 flex items-center justify-center overflow-y-auto"
       >
-        <div className="relative max-w-4xl w-full bg-dark/80 backdrop-blur-lg rounded-2xl border border-primary/30 p-8">
           <button 
             onClick={onClose}
             className="absolute top-4 right-4 text-primary hover:text-accent transition-colors"
           >
             <XMarkIcon className="w-8 h-8" />
           </button>
+        <div className="relative max-w-4xl w-full bg-dark/80 backdrop-blur-lg rounded-2xl top-0 border border-primary/30 p-8">
 
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="aspect-video rounded-xl overflow-hidden">
@@ -112,9 +110,6 @@ export default function Projects() {
 
   return (
     <section className=" relative overflow-hidden">
-      <GeometricBackground />
-      <QuantumParticles />
-
       <div className="relative z-10 container mx-auto px-4 h-full py-16">
         {/* Animated Header */}
         <motion.div

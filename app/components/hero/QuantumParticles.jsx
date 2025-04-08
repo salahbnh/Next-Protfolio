@@ -18,7 +18,7 @@ export default function QuantumParticles() {
   }));
 
   return (
-    <div className="absolute inset-0 z-1 pointer-events-none">
+    <div className="fixed inset-0 z-0 pointer-events-none">
       {particles.map((pos, i) => (
         <motion.div
           key={i}

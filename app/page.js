@@ -7,13 +7,15 @@ import Skills from './components/skills';
 import ServicesSection from './components/services';
 import ContactSection from './components/contact/ContactSection';
 import Footer from './components/footer';
-
+import GeometricBackground from './components/hero/GeometricBackground';
+import QuantumParticles from './components/hero/QuantumParticles';
 
 
 function Home() {
   return (
     <main>
       <Navbar />
+
       <section id="home">
         <ScrollReveal>
           <Hero />

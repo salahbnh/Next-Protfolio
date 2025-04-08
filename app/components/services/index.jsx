@@ -8,8 +8,6 @@ import {
     RocketLaunchIcon,
     CubeIcon
   } from '@heroicons/react/24/outline';
-import GeometricBackground from '../hero/GeometricBackground';
-import QuantumParticles from '../hero/QuantumParticles';
 
 const services = [
     {
@@ -46,8 +44,6 @@ const services = [
 export default function ServicesSection() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-dark py-20">
-    <GeometricBackground/>
-    <QuantumParticles/>
       {/* Wavy Background Animation */}
       <div className="absolute inset-0 overflow-hidden opacity-20">
         <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(14,165,233,0.1)_50%,transparent_75%)] bg-[length:400%_400%] animate-waves" />

@@ -31,10 +31,6 @@ export default function Hero() {
 
   return (
     <section className="h-screen relative overflow-hidden">
-    
-      <GeometricBackground />
-      <QuantumParticles />
-
       <motion.div
         initial="hidden"
         animate={controls}

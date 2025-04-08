@@ -21,15 +21,13 @@ export default function GeometricBackground() {
   }));
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden">
-      {/* Animated Grid */}
+    <div className="fixed inset-0 z-0 overflow-hidden">
+      {/* Your animated grid and floating triangles */}
       <motion.div
         className="absolute inset-0 bg-[size:50px_50px] opacity-10"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, var(--primary) 1px, transparent 1px),
-            linear-gradient(to bottom, var(--primary) 1px, transparent 1px)
-          `,
+          backgroundImage: `linear-gradient(to right, var(--primary) 1px, transparent 1px),
+                            linear-gradient(to bottom, var(--primary) 1px, transparent 1px)`,
         }}
         animate={{
           backgroundPosition: ['0% 0%', '100% 100%']
@@ -40,8 +38,6 @@ export default function GeometricBackground() {
           ease: 'linear'
         }}
       />
-
-      {/* Floating Triangles */}
       {positions.map((pos, i) => (
         <motion.div
           key={i}
@@ -66,4 +62,5 @@ export default function GeometricBackground() {
       ))}
     </div>
   );
+  
 }

@@ -8,8 +8,6 @@ import IconSphere from './IconSphere';
 import CameraController from './CameraController';
 import Particles from './Particles';
 import TextReveal from './TextReveal';
-import GeometricBackground from '../hero/GeometricBackground';
-import QuantumParticles from '../hero/QuantumParticles';
 import { useInView } from 'react-intersection-observer';
 
 // Define your skills with PNG icons for best compatibility.
@@ -75,9 +73,6 @@ export default function Skills() {
       ref={ref} // Add this ref for intersection observer
       className="relative h-screen w-full overflow-hidden bg-dark"
     >      
-      <GeometricBackground />
-      <QuantumParticles />
-
       <div className="absolute inset-0 flex items-center justify-center">
         <div ref={ref} className="w-[80%] h-[70vh] relative">
           <Canvas
