@@ -1,14 +1,17 @@
 // IconSphere.jsx
 'use client';
 import { useLoader } from '@react-three/fiber';
+import * as THREE from 'three';
 import { TextureLoader } from 'three';
 import { RigidBody } from '@react-three/rapier';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useMemo } from 'react';
+
 
 
 export default function IconSphere({ position, icon, drop }) {
   const texture = useLoader(TextureLoader, icon);
   const rigidBodyRef = useRef();
+  const geometry = useMemo(() => new THREE.BoxGeometry(1.5, 1.5, 1.5), []);
 
   // Instead of importing sRGBEncoding, we use its typical numeric value (3001)
   texture.encoding = 3001;
@@ -38,16 +41,14 @@ export default function IconSphere({ position, icon, drop }) {
       angularDamping={0.9}   // Slow down rotation
       linearDamping={0.9}    // Slow down falling speed
     >
-      <mesh castShadow receiveShadow>
-        {/* Increased sphere radius from 0.4 to 0.7 */}
-        <boxGeometry args={[1.5, 1.5, 1.5]} />
+      <mesh castShadow receiveShadow geometry={geometry}>
         <meshStandardMaterial
           map={texture}
-          transparent
+          emissive="white"
+          emissiveMap={texture}
           opacity={1}
           metalness={0.4}
           roughness={0.5}
-          color="#F2F2F2"
         />
       </mesh>
     </RigidBody>

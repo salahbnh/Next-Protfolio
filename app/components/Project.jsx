@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 const projects = [
   {
@@ -27,8 +28,7 @@ const projects = [
   }
 ];
 
-function ProjectCard({ project, onClick }) {
-  return (
+const ProjectCard = memo(function ProjectCard({ project, onClick }) {  return (
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 20 },
@@ -42,17 +42,18 @@ function ProjectCard({ project, onClick }) {
       
       <div className="relative bg-dark/50 backdrop-blur-lg rounded-xl p-4 border border-primary/30 hover:border-primary/50 transition-all">
         <div className="aspect-video rounded-lg overflow-hidden">
-          <img 
+          <Image 
             src={project.gif} 
             alt={project.title} 
-            className="w-full h-full object-cover"
+            layout="fill"
+            objectFit="cover"
           />
         </div>
         <h3 className="mt-4 text-xl font-orbitron text-primary">{project.title}</h3>
       </div>
     </motion.div>
-  );
-}
+ )});
+
 
 function ProjectModal({ project, onClose }) {
   return (
@@ -73,10 +74,11 @@ function ProjectModal({ project, onClose }) {
 
           <div className="grid lg:grid-cols-2 gap-8">
             <div className="aspect-video rounded-xl overflow-hidden">
-              <img 
+              <Image 
                 src={project.gif} 
                 alt={project.title} 
-                className="w-full h-full object-cover"
+                layout="fill"
+                objectFit="cover"
               />
             </div>
             

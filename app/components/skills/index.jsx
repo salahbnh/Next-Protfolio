@@ -12,11 +12,11 @@ import { useInView } from 'react-intersection-observer';
 
 // Define your skills with PNG icons for best compatibility.
 const SKILLS = [
+  { name: 'Node.js', icon: '/nodejs.png' },
   { name: 'React', icon: '/reactsjs.png' },
   { name: 'TypeScript', icon: '/typescript.png' },
   { name: 'JS', icon: '/js.png' },
   { name: 'Java', icon: '/java.png' },
-  { name: 'Node.js', icon: '/nodejs.png' },
   { name: 'Next.js', icon: '/nextjs.png' },
   { name: 'SpringBoot', icon: '/springboot.png' },
   { name: 'Firebase', icon: '/firebase.png' },
@@ -79,9 +79,10 @@ export default function Skills() {
             shadows
             camera={{ position: [0, 15, 20], fov: 50 }}
             gl={{ alpha: true, antialias: true }}
+            dpr={[1, 1.5]}
           >
             <ambientLight intensity={4} />
-            <pointLight position={[10, 10, 10]} intensity={1.2} castShadow />
+            <pointLight position={[10, 10, 10]} intensity={10} />            
             
             <Suspense fallback={null}>
               <Physics gravity={[0, -9.81, 0]} interpolate>

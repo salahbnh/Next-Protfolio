@@ -44,7 +44,7 @@ const Navbar = () => {
             className="text-2xl font-bold text-gradient"
             style={{ fontFamily: 'var(--font-orbitron)' }}
           >
-            {"<SALAh/>"}
+            {"<SALAH/>"}
           </motion.a>
 
           {/* Desktop Navigation */}

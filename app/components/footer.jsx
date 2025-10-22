@@ -66,10 +66,8 @@ export default function Footer() {
           >
             <h3 className="font-orbitron text-lg text-primary mb-4">Quantum Links</h3>
             <div className="flex gap-6">
-              <SocialIcon href="https://github.com" icon={<FaGithub />} />
-              <SocialIcon href="https://linkedin.com" icon={<FaLinkedin />} />
-              <SocialIcon href="https://twitter.com" icon={<FaTwitter />} />
-              <SocialIcon href="https://discord.com" icon={<FaDiscord />} />
+              <SocialIcon href="https://github.com/salahbnh"  icon={<FaGithub />} />
+              <SocialIcon href="https://www.linkedin.com/in/salah-bounouh-1426ba27b/"  icon={<FaLinkedin />} />
             </div>
           </motion.div>
 

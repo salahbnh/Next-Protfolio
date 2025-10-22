@@ -1,14 +1,14 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/hero/index';
-import Projects from './components/Project';
 import ScrollReveal from './components/ScrollReveal';
-import Skills from './components/skills';
-import ServicesSection from './components/services';
-import ContactSection from './components/contact/ContactSection';
 import Footer from './components/footer';
-import GeometricBackground from './components/hero/GeometricBackground';
-import QuantumParticles from './components/hero/QuantumParticles';
+import dynamic from 'next/dynamic';
+
+const Projects = dynamic(()=> import('./components/Project'));
+const Skills = dynamic(() => import('./components/skills'));
+const ServicesSection = dynamic(() => import('./components/services'));
+const ContactSection = dynamic(() => import('./components/contact/ContactSection'));
 
 
 function Home() {

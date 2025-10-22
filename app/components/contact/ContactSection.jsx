@@ -33,22 +33,12 @@ export default function ContactSection() {
                 <Socials
                   icon={<FaGithub />} 
                   label="GitHub" 
-                  href="https://github.com/yourusername" 
+                  href="https://github.com/salahbnh" 
                 />
                 <Socials
                   icon={<FaLinkedin />} 
                   label="LinkedIn" 
-                  href="https://linkedin.com/in/yourusername" 
-                />
-                <Socials
-                  icon={<FaTwitter />} 
-                  label="Twitter" 
-                  href="https://twitter.com/yourusername" 
-                />
-                <Socials
-                  icon={<FaDiscord />} 
-                  label="Discord" 
-                  href="https://discord.com/users/yourusername" 
+                  href="https://www.linkedin.com/in/salah-bounouh-1426ba27b/" 
                 />
               </div>
             </div>
