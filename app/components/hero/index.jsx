@@ -13,24 +13,39 @@ const QuantumParticles = dynamic(
   { ssr: false }
 );
 
+const charVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.05 },
+  },
+};
+
+const textVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: 'spring', stiffness: 100 },
+  },
+};
+
 export default function Hero() {
   const controls = useAnimation();
-  
+
   useEffect(() => {
     controls.start('visible');
   }, [controls]);
 
-  const textVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { type: 'spring', stiffness: 100 }
-    }
-  };
-
   return (
     <section className="h-screen relative overflow-hidden">
+      <GeometricBackground />
+      <QuantumParticles />
+
       <motion.div
         initial="hidden"
         animate={controls}
@@ -39,23 +54,19 @@ export default function Hero() {
         <div className="max-w-4xl mx-auto mt-20 space-y-6">
           {/* Main Heading */}
           <motion.h1
-            variants={textVariants}
+            variants={containerVariants}
             className="text-2xl"
             style={{ fontFamily: 'var(--font-orbitron)' }}
           >
-             {"Hello, I'm Salah Bounouh".split('').map((char, i) => {
-                const displayChar = char === ' ' ? '\u00A0' : char;
-                return (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.05 }}
-                    className="inline-block whitespace-pre"
-                  >
-                    {displayChar}
-                  </motion.span>);
-             })}
+            {"Hello, I'm Salah Bounouh".split('').map((char, i) => (
+              <motion.span
+                key={i}
+                variants={charVariants}
+                className="inline-block whitespace-pre"
+              >
+                {char === ' ' ? '\u00A0' : char}
+              </motion.span>
+            ))}
             <motion.span
               variants={textVariants}
               className="block mt-1 text-3xl md:text-4xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent"
@@ -73,7 +84,7 @@ export default function Hero() {
             of experience, I've delivered production-ready solutions using modern stacks like React, Node.js,
             cloud platforms and other tools and framworks.
             <br/>
-            When I'm not coding web applications, you'll find me developing 2D/3D game prototypes in Unity, contributing to open-source DevOps, 
+            When I'm not coding web applications, you'll find me developing 2D/3D game prototypes in Unity, contributing to open-source DevOps,{' '}
             <motion.span
               className="block mt-2 text-primary"
               animate={{ opacity: [0.8, 1] }}
@@ -100,19 +111,19 @@ export default function Hero() {
           </motion.div>
 
           {/* CTA Button */}
-          <motion.div variants={textVariants} >
-          <a href="#projects">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="relative px-8 py-4 rounded-full bg-dark/50 backdrop-blur-lg border border-primary/30 group"
-            >
-              <span className="text-xl font-orbitron bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                See My Work
-              </span>
-              <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
-            </motion.button>
-          </a>
+          <motion.div variants={textVariants}>
+            <a href="#projects">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative px-8 py-4 rounded-full bg-dark/50 backdrop-blur-lg border border-primary/30 group"
+              >
+                <span className="text-xl font-orbitron bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                  See My Work
+                </span>
+                <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/20 to-accent/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              </motion.button>
+            </a>
           </motion.div>
         </div>
       </motion.div>

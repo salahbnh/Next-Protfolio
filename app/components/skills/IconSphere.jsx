@@ -6,15 +6,41 @@ import { TextureLoader } from 'three';
 import { RigidBody } from '@react-three/rapier';
 import { useEffect, useRef, useMemo } from 'react';
 
-
-
 export default function IconSphere({ position, icon, drop }) {
   const texture = useLoader(TextureLoader, icon);
   const rigidBodyRef = useRef();
   const geometry = useMemo(() => new THREE.BoxGeometry(1.5, 1.5, 1.5), []);
 
-  // Instead of importing sRGBEncoding, we use its typical numeric value (3001)
-  texture.encoding = 3001;
+  // Composite the logo onto a white canvas so:
+  // 1. Transparent PNG areas become white (no see-through faces)
+  // 2. All cubes have a uniform base — no emissive brightness variance
+  const compositeTexture = useMemo(() => {
+    const size = 256;
+    const padding = 32;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+
+    // Clean white background
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+
+    // Draw logo centered with padding so it doesn't bleed to the edges
+    if (texture.image) {
+      ctx.drawImage(
+        texture.image,
+        padding,
+        padding,
+        size - padding * 2,
+        size - padding * 2
+      );
+    }
+
+    const canvasTexture = new THREE.CanvasTexture(canvas);
+    canvasTexture.colorSpace = THREE.SRGBColorSpace;
+    return canvasTexture;
+  }, [texture]);
 
   useEffect(() => {
     if (rigidBodyRef.current && !drop) {
@@ -27,28 +53,22 @@ export default function IconSphere({ position, icon, drop }) {
     }
   }, [drop, position]);
 
-  
   return (
     <RigidBody
-      // When drop is false, use a fixed body so the sphere stays in place.
-      // Once drop is true, switch to dynamic so gravity will act on it.
       ref={rigidBodyRef}
-      type={drop ? "dynamic" : "fixed"}
+      type={drop ? 'dynamic' : 'fixed'}
       position={position}
       colliders="ball"
-      restitution={0.8}      // Lower bounce
-      friction={0.8}         // Increase friction for better ground adhesion
-      angularDamping={0.9}   // Slow down rotation
-      linearDamping={0.9}    // Slow down falling speed
+      restitution={0.8}
+      friction={0.8}
+      angularDamping={0.9}
+      linearDamping={0.9}
     >
       <mesh castShadow receiveShadow geometry={geometry}>
         <meshStandardMaterial
-          map={texture}
-          emissive="white"
-          emissiveMap={texture}
-          opacity={1}
-          metalness={0.4}
-          roughness={0.5}
+          map={compositeTexture}
+          metalness={0.05}
+          roughness={0.25}
         />
       </mesh>
     </RigidBody>

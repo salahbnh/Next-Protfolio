@@ -2,7 +2,7 @@
 'use client';
 import { Canvas } from '@react-three/fiber';
 import { Physics, RigidBody } from '@react-three/rapier';
-import { Suspense, useEffect, useRef, useState, useMemo } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import IconSphere from './IconSphere';
 import CameraController from './CameraController';
@@ -10,7 +10,6 @@ import Particles from './Particles';
 import TextReveal from './TextReveal';
 import { useInView } from 'react-intersection-observer';
 
-// Define your skills with PNG icons for best compatibility.
 const SKILLS = [
   { name: 'Node.js', icon: '/nodejs.png' },
   { name: 'React', icon: '/reactsjs.png' },
@@ -32,11 +31,11 @@ const SKILLS = [
 export default function Skills() {
   const [drop, setDrop] = useState(false);
   const { ref, inView } = useInView({
-    threshold: 0.25, // When 25% of component is visible
-    triggerOnce: false, // Allow multiple triggers
+    threshold: 0.25,
+    triggerOnce: false,
   });
-  // New positions calculation with useMemo
-  const positions = useMemo(() => 
+
+  const positions = useMemo(() =>
     SKILLS.map((_, i) => {
       const col = i % 5;
       const row = Math.floor(i / 5);
@@ -45,13 +44,10 @@ export default function Skills() {
     }),
   []);
 
-  // Updated useEffect for animation control
   useEffect(() => {
     let timeout;
     if (inView) {
-      timeout = setTimeout(() => {
-        setDrop(true);
-      }, 500); // Shorten delay to 500ms
+      timeout = setTimeout(() => setDrop(true), 500);
     } else {
       setDrop(false);
     }
@@ -60,21 +56,14 @@ export default function Skills() {
       setDrop(false);
     };
   }, [inView]);
-  
-
-  // After 2 seconds, trigger the drop by switching the physics type.
-  useEffect(() => {
-    const timeout = setTimeout(() => setDrop(true), 2000);
-    return () => clearTimeout(timeout);
-  }, []);
 
   return (
-    <section 
-      ref={ref} // Add this ref for intersection observer
+    <section
+      ref={ref}
       className="relative h-screen w-full overflow-hidden bg-dark"
-    >      
+    >
       <div className="absolute inset-0 flex items-center justify-center">
-        <div ref={ref} className="w-[80%] h-[70vh] relative">
+        <div className="w-[80%] h-[70vh] relative">
           <Canvas
             shadows
             camera={{ position: [0, 15, 20], fov: 50 }}
@@ -82,8 +71,8 @@ export default function Skills() {
             dpr={[1, 1.5]}
           >
             <ambientLight intensity={4} />
-            <pointLight position={[10, 10, 10]} intensity={10} />            
-            
+            <pointLight position={[10, 10, 10]} intensity={10} />
+
             <Suspense fallback={null}>
               <Physics gravity={[0, -9.81, 0]} interpolate>
                 {positions.map((pos, i) => (
@@ -95,7 +84,6 @@ export default function Skills() {
                   />
                 ))}
 
-                {/* Ground plane at y=0 */}
                 <RigidBody type="fixed">
                   <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
                     <planeGeometry args={[30, 30]} />
@@ -114,7 +102,6 @@ export default function Skills() {
             </Suspense>
           </Canvas>
 
-          {/* Optional text overlay – you can adjust this as needed */}
           <TextReveal reveal={drop} />
         </div>
       </div>

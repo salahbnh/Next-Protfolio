@@ -57,11 +57,11 @@ const ProjectCard = memo(function ProjectCard({ project, onClick }) {
       
       <div className="relative bg-dark/50 backdrop-blur-lg rounded-xl p-4 border border-primary/30 hover:border-primary/50 transition-all">
         <div className="relative aspect-video rounded-lg overflow-hidden">
-          <Image 
-            src={project.gif} 
-            alt={project.title} 
-            layout="fill"
-            objectFit="cover"
+          <Image
+            src={project.gif}
+            alt={project.title}
+            fill
+            style={{ objectFit: 'cover' }}
             className="rounded-lg"
           />
         </div>
@@ -83,14 +83,12 @@ const ProjectVideoCard = memo(function ProjectVideoCard({ project, onClick }) {
       onClick={onClick}
     >
       <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-accent/20 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity" />
-      
+
       <div className="relative bg-dark/50 backdrop-blur-lg rounded-xl p-4 border border-primary/30 hover:border-primary/50 transition-all">
         <div className="relative aspect-video rounded-lg overflow-hidden ">
           <video
             src={project.video}
-            alt={project.title}
             className="w-[110%] h-[95%] object-contain rounded-lg"
-            autoPlay
             loop
             muted
             playsInline
@@ -117,11 +115,11 @@ const ProjectLinkCard = memo(function ProjectLinkCard({ project }) {
         
         <div className="relative bg-dark/50 backdrop-blur-lg rounded-xl p-4 border border-primary/30 hover:border-primary/50 transition-all h-full">
           <div className="relative aspect-video rounded-lg overflow-hidden">
-            <Image 
-              src={project.image} 
-              alt={project.title} 
-              layout="fill"
-              objectFit="cover"
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              style={{ objectFit: 'cover' }}
               className="rounded-lg"
             />
           </div>
@@ -140,46 +138,56 @@ function ProjectModal({ project, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[9999] bg-dark/90 backdrop-blur-xl p-4 sm:p-8 flex items-center justify-center overflow-y-auto"
+      className="fixed inset-0 z-[9999] bg-dark/90 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6"
       onClick={onClose}
     >
-      <div 
-        className="relative max-w-4xl w-full bg-dark/80 backdrop-blur-lg rounded-2xl border border-primary/30 p-6 sm:p-8 max-h-[90vh] overflow-y-auto"
+      <div
+        className="relative max-w-4xl w-full bg-dark/80 backdrop-blur-lg rounded-2xl border border-primary/30 max-h-[95vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 text-primary hover:text-accent transition-colors z-10"
-        >
-          <XMarkIcon className="w-8 h-8" />
-        </button>
+        {/* Header */}
+        <div className="flex items-start justify-between gap-3 p-4 sm:p-6 pb-0">
+          <h2 className="text-lg sm:text-2xl lg:text-3xl font-orbitron text-primary leading-snug">
+            {project.title}
+          </h2>
+          <button
+            onClick={onClose}
+            className="shrink-0 text-primary hover:text-accent transition-colors mt-0.5"
+          >
+            <XMarkIcon className="w-6 h-6 sm:w-8 sm:h-8" />
+          </button>
+        </div>
 
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          <div className="relative aspect-video rounded-xl overflow-hidden">
-            <Image 
-              src={project.gif} 
-              alt={project.title} 
-              layout="fill"
-              objectFit="cover"
-              className="rounded-xl"
-            />
-          </div>
-          
-          <div className="space-y-4">
-            <h2 className="text-2xl sm:text-3xl font-orbitron text-primary">{project.title}</h2>
-            <p className="text-light/80 font-space leading-relaxed text-sm sm:text-base">{project.description}</p>
-            
-            <div className="space-y-2">
-              <h3 className="text-primary font-orbitron">Technologies Used:</h3>
-              <div className="flex flex-wrap gap-2">
-                {project.tools.map((tool) => (
-                  <span 
-                    key={tool}
-                    className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm"
-                  >
-                    {tool}
-                  </span>
-                ))}
+        {/* Scrollable body */}
+        <div className="overflow-y-auto flex-1 p-4 sm:p-6 pt-4">
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 items-start">
+            <div className="relative aspect-video rounded-xl overflow-hidden">
+              <Image
+                src={project.gif}
+                alt={project.title}
+                fill
+                style={{ objectFit: 'cover' }}
+                className="rounded-xl"
+              />
+            </div>
+
+            <div className="space-y-3 sm:space-y-4">
+              <p className="text-light/80 font-space leading-relaxed text-sm sm:text-base">
+                {project.description}
+              </p>
+
+              <div className="space-y-2">
+                <h3 className="text-primary font-orbitron text-sm sm:text-base">Technologies Used:</h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -197,48 +205,58 @@ function ProjectVideoModal({ project, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[9999] bg-dark/90 backdrop-blur-xl p-4 sm:p-8 flex items-center justify-center overflow-y-auto"
+      className="fixed inset-0 z-[9999] bg-dark/90 backdrop-blur-xl flex items-center justify-center p-3 sm:p-6"
       onClick={onClose}
     >
-      <div 
-        className="relative max-w-4xl w-full bg-dark/80 backdrop-blur-lg rounded-2xl border border-primary/30 p-6 sm:p-8 max-h-[90vh] overflow-y-auto"
+      <div
+        className="relative max-w-4xl w-full bg-dark/80 backdrop-blur-lg rounded-2xl border border-primary/30 max-h-[95vh] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        <button 
-          onClick={onClose}
-          className="absolute top-4 right-4 text-primary hover:text-accent transition-colors z-10"
-        >
-          <XMarkIcon className="w-8 h-8" />
-        </button>
-        <div className="grid lg:grid-cols-2 gap-8 items-start ">
-          <div className="relative aspect-video rounded-xl overflow-hidden">
-            <video
-              src={project.video}
-              alt={project.title}
-              className="w-full h-full object-contain rounded-xl"
-              controls
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
-          </div>
-          
-          <div className="space-y-4">
-            <h2 className="text-2xl sm:text-3xl font-orbitron text-primary">{project.title}</h2>
-            <p className="text-light/80 font-space leading-relaxed text-sm sm:text-base">{project.description}</p>
-            
-            <div className="space-y-2">
-              <h3 className="text-primary font-orbitron">Technologies Used:</h3>
-              <div className="flex flex-wrap gap-2">
-                {project.tools.map((tool) => (
-                  <span 
-                    key={tool}
-                    className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm"
-                  >
-                    {tool}
-                  </span>
-                ))}
+        {/* Header */}
+        <div className="flex items-start justify-between gap-3 p-4 sm:p-6 pb-0">
+          <h2 className="text-lg sm:text-2xl lg:text-3xl font-orbitron text-primary leading-snug">
+            {project.title}
+          </h2>
+          <button
+            onClick={onClose}
+            className="shrink-0 text-primary hover:text-accent transition-colors mt-0.5"
+          >
+            <XMarkIcon className="w-6 h-6 sm:w-8 sm:h-8" />
+          </button>
+        </div>
+
+        {/* Scrollable body */}
+        <div className="overflow-y-auto flex-1 p-4 sm:p-6 pt-4">
+          <div className="grid lg:grid-cols-2 gap-4 sm:gap-6 items-start">
+            <div className="relative aspect-video rounded-xl overflow-hidden">
+              <video
+                src={project.video}
+                className="w-full h-full object-contain rounded-xl"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+              />
+            </div>
+
+            <div className="space-y-3 sm:space-y-4">
+              <p className="text-light/80 font-space leading-relaxed text-sm sm:text-base">
+                {project.description}
+              </p>
+
+              <div className="space-y-2">
+                <h3 className="text-primary font-orbitron text-sm sm:text-base">Technologies Used:</h3>
+                <div className="flex flex-wrap gap-2">
+                  {project.tools.map((tool) => (
+                    <span
+                      key={tool}
+                      className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs sm:text-sm"
+                    >
+                      {tool}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

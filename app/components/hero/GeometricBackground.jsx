@@ -1,28 +1,28 @@
 'use client';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 export default function GeometricBackground() {
   const [isClient, setIsClient] = useState(false);
 
-  // Client-side only mount
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  if (!isClient) return null;
+  const positions = useMemo(() =>
+    Array.from({ length: 8 }).map((_, i) => ({
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      rotate: Math.random() * 360,
+      size: Math.random() * 40 + 20,
+      duration: Math.random() * 10 + 10,
+    })),
+  []);
 
-  // Generate stable random positions
-  const positions = Array.from({ length: 8 }).map(() => ({
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    rotate: Math.random() * 360,
-    size: Math.random() * 40 + 20
-  }));
+  if (!isClient) return null;
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden">
-      {/* Your animated grid and floating triangles */}
       <motion.div
         className="absolute inset-0 bg-[size:50px_50px] opacity-10"
         style={{
@@ -54,7 +54,7 @@ export default function GeometricBackground() {
             scale: [1, 1.5, 1]
           }}
           transition={{
-            duration: Math.random() * 10 + 10,
+            duration: pos.duration,
             repeat: Infinity,
             ease: 'easeInOut'
           }}
@@ -62,5 +62,4 @@ export default function GeometricBackground() {
       ))}
     </div>
   );
-  
 }

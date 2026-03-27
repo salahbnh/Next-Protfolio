@@ -1,7 +1,5 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Orbitron, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import GeometricBackground from './components/hero/GeometricBackground';
-import QuantumParticles from './components/hero/QuantumParticles';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,6 +9,18 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -51,10 +61,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${spaceGrotesk.variable} antialiased`}
       >
-        <GeometricBackground/>
-        <QuantumParticles/>
         {children}
       </body>
     </html>

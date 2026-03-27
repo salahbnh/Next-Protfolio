@@ -53,19 +53,23 @@ const Navbar = () => {
               <motion.a
                 key={item.name}
                 href={item.href}
-                whileHover={{
-                  scale: 1.1,
-                  textShadow: '0 0 8px var(--primary)'
+                initial="rest"
+                whileHover="hover"
+                animate="rest"
+                variants={{
+                  rest: { scale: 1, textShadow: '0 0 0px transparent' },
+                  hover: { scale: 1.1, textShadow: '0 0 8px var(--primary)' },
                 }}
                 className="relative px-3 py-2 text-lg font-medium"
                 style={{ color: 'var(--foreground)' }}
               >
                 {item.name}
                 <motion.span
-                  className="absolute bottom-0 left-0 w-full h-0.5 bg-primary"
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
+                  className="absolute bottom-0 left-0 w-full h-0.5 bg-primary origin-left"
+                  variants={{
+                    rest: { scaleX: 0 },
+                    hover: { scaleX: 1 },
+                  }}
                   transition={{ duration: 0.3 }}
                 />
               </motion.a>
