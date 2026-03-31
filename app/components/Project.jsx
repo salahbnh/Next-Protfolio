@@ -12,6 +12,20 @@ const projects = [
     tools: ["NextJs", "Firebase", "Stripe", "Stable Diffusion APIs","DallE API"],
     link: "#"
   },
+    {
+    title: "Spicy Barbershop",
+    image: "/barber.png",
+    description: "A modern and stylish website for a barbershop, allowing users to browse services, check availability, and book appointments online. Built with Next.js and deployed on Vercel.",
+    tools: ["Next.js", "React", "Tailwind CSS", "Vercel"],
+    link: "https://spicy-barbershop.vercel.app/"
+  },
+  {
+    title: "MedVR",
+    image: "/medvr.png",
+    description: "A modern clinic management platform that connects patients and doctors. It supports appointment booking, medical folder management, real-time notifications, and online payments. Built with React, Node.js, MongoDB, and Socket.IO.",
+    tools: ["React", "Node.js", "Express", "MongoDB", "Socket.IO"],
+    link: "https://my-app-kappa-gules-18.vercel.app/"
+  },
   {
     title: "AI parking with ML agent",
     gif: "/Ai_Parking.gif",
@@ -32,13 +46,6 @@ const projects = [
     description: "This project is an e-commerce platform currently under development. The backend is already complete and production-ready: all CRUD operations and REST APIs required for both admin and client flows are implemented using Node.js (TypeScript) following a 3-layer hexagonal architecture. Key backend features include Stripe payment integration, admin statistics/metrics for inventory monitoring, and Redis-based caching to accelerate requests and reduce database load. The admin dashboard (demo video available) is built with React.js and lets the administrator add/update products and categories, manage stock, and view sales/stock metrics. Everything is fully containerized with Docker, so the whole stack is ready to deploy.",
     tools: ['Node.js (TypeScript)', 'Express.js', 'MongoDB', 'React.js', 'Redis', 'Stripe', 'Docker'],
     link: "#"
-  },
-  {
-    title: "Spicy Barbershop",
-    image: "/barber.png",
-    description: "A modern and stylish website for a barbershop, allowing users to browse services, check availability, and book appointments online. Built with Next.js and deployed on Vercel.",
-    tools: ["Next.js", "React", "Tailwind CSS", "Vercel"],
-    link: "https://spicy-barbershop.vercel.app/"
   }
 ];
 
