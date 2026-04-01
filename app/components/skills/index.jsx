@@ -32,7 +32,7 @@ export default function Skills() {
   const [drop, setDrop] = useState(false);
   const { ref, inView } = useInView({
     threshold: 0.25,
-    triggerOnce: false,
+    triggerOnce: true,
   });
 
   const positions = useMemo(() =>
