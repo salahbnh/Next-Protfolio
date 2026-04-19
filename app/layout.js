@@ -1,25 +1,16 @@
-import { Geist, Geist_Mono, Orbitron, Space_Grotesk } from "next/font/google";
+import { Geist, Geist_Mono, Orbitron, Space_Grotesk, Rajdhani } from "next/font/google";
 import "./globals.css";
+import QuantumCursor from './components/cursor/QuantumCursor';
+import ScrollProgressBar from './components/ui/ScrollProgressBar';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+const orbitron = Orbitron({ variable: "--font-orbitron", subsets: ["latin"], display: "swap" });
+const spaceGrotesk = Space_Grotesk({ variable: "--font-space", subsets: ["latin"], display: "swap" });
+const rajdhani = Rajdhani({
+  variable: "--font-rajdhani",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -31,11 +22,11 @@ export const metadata = {
     title: "Salah Bounouh – Professional Portfolio & Projects",
     description:
       "Discover innovative projects and technology solutions by Salah Bounouh. Dive into my work in web development, AI, and more.",
-    url: "https://salahbounouh.com", // replace with your custom domain
+    url: "https://salahbounouh.com",
     siteName: "Salah Bounouh Portfolio",
     images: [
       {
-        url: "https://salahbounouh.com/me.jpg",  // customize an image for social sharing
+        url: "https://salahbounouh.com/me.jpg",
         width: 1200,
         height: 630,
         alt: "Salah Bounouh Portfolio",
@@ -46,14 +37,14 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    site: "@my_twitter_handle", // if available
+    site: "@my_twitter_handle",
     title: "Salah Bounouh – Professional Portfolio & Projects",
     description:
       "Explore the portfolio of Salah Bounouh featuring innovative projects and a journey in web development and technology.",
-    images: ["https://salahbounouh.com/me.jpg"],  // same image used above
+    images: ["https://salahbounouh.com/me.jpg"],
   },
   alternates: {
-    canonical: "https://salahbounouh.com",  // replace with your actual domain
+    canonical: "https://salahbounouh.com",
   },
 };
 
@@ -61,8 +52,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${spaceGrotesk.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${spaceGrotesk.variable} ${rajdhani.variable} antialiased cursor-none`}
       >
+        <QuantumCursor />
+        <ScrollProgressBar />
         {children}
       </body>
     </html>

@@ -1,18 +1,20 @@
 'use client';
-
 import dynamic from 'next/dynamic';
+import { useInView } from 'react-intersection-observer';
 
-const Spinner = () => (
-  <div className="h-screen flex items-center justify-center">
-    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-  </div>
-);
-
-const Skills = dynamic(() => import('./skills'), {
-  loading: () => <Spinner />,
-  ssr: false,
-});
+// Only import Three.js bundle when the skills section scrolls into view
+const Skills = dynamic(() => import('./skills'), { ssr: false });
 
 export default function SkillsClient() {
-  return <Skills />;
+  const { ref, inView } = useInView({
+    threshold: 0,
+    triggerOnce: true,   // once loaded, stays loaded
+    rootMargin: '200px', // start loading 200px before reaching the section
+  });
+
+  return (
+    <div ref={ref} style={{ height: '100vh', background: 'var(--background)' }}>
+      {inView && <Skills />}
+    </div>
+  );
 }

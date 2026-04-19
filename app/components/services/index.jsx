@@ -1,106 +1,126 @@
 'use client';
 import { motion } from 'framer-motion';
-import { 
-    ServerStackIcon, 
-    GlobeAmericasIcon,
-    ServerIcon,
-    CommandLineIcon,
-    RocketLaunchIcon,
-    CubeIcon
-  } from '@heroicons/react/24/outline';
+import {
+  ServerStackIcon,
+  GlobeAmericasIcon,
+  ServerIcon,
+  CommandLineIcon,
+  RocketLaunchIcon,
+  CubeIcon,
+} from '@heroicons/react/24/outline';
 
 const services = [
-    {
-      title: "Backend Development",
-      description: "Architecting high-performance server solutions with Node.js, Spring Boot, and real-time database systems",
-      icon: <ServerStackIcon className="h-12 w-12 text-primary" />
-    },
-    {
-      title: "Frontend Engineering",
-      description: "Building immersive web experiences with responsive layouts, fluid animations, and Three.js 3D integrations",
-      icon: <GlobeAmericasIcon className="h-12 w-12 text-primary" />
-    },
-    {
-      title: "Game Development",
-      description: "Creating 3D game environments and complex gameplay mechanics using Unity Engine and C# scripting",
-      icon: <CubeIcon className="h-12 w-12 text-primary" />
-    },
-    {
-      title: "API Architecture",
-      description: "Enterprise-grade API development with REST/GraphQL standards, JWT authentication, and Redis caching",
-      icon: <ServerIcon className="h-12 w-12 text-primary" />
-    },
-    {
-      title: "DevOps Automation",
-      description: "Implementing CI/CD pipelines with Docker, Kubernetes, and GitHub Actions for zero-downtime deployments",
-      icon: <CommandLineIcon className="h-12 w-12 text-primary" />
-    },
-    {
-      title: "Technical Leadership",
-      description: "Leading cross-functional teams in Agile environments with architectural decision ownership and code reviews",
-      icon: <RocketLaunchIcon className="h-12 w-12 text-primary" />
-    },
-  ];
+  { title: 'Backend Development',  desc: 'Architecting high-performance server solutions with Node.js, Spring Boot, and real-time database systems',                                                     Icon: ServerStackIcon  },
+  { title: 'Frontend Engineering', desc: 'Building immersive web experiences with responsive layouts, fluid animations, and Three.js 3D integrations',                                                 Icon: GlobeAmericasIcon },
+  { title: 'Game Development',     desc: 'Creating 3D game environments and complex gameplay mechanics using Unity Engine and C# scripting',                                                            Icon: CubeIcon          },
+  { title: 'API Architecture',     desc: 'Enterprise-grade API development with REST/GraphQL standards, JWT authentication, and Redis caching',                                                         Icon: ServerIcon        },
+  { title: 'DevOps Automation',    desc: 'Implementing CI/CD pipelines with Docker, Kubernetes, and GitHub Actions for zero-downtime deployments',                                                     Icon: CommandLineIcon   },
+  { title: 'Technical Leadership', desc: 'Leading cross-functional teams in Agile environments with architectural decision ownership and code reviews',                                                  Icon: RocketLaunchIcon  },
+];
+
+function ServiceCard({ service, index }) {
+  const { title, desc, Icon } = service;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ delay: index * 0.09, duration: 0.55, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      <div
+        className="card-scan relative rounded-xl p-6 overflow-hidden group cursor-default"
+        style={{
+          background: 'rgba(13,17,23,0.78)',
+          border: '1px solid var(--border)',
+          backdropFilter: 'blur(12px)',
+          height: '100%',
+          transition: 'border-color 0.25s, box-shadow 0.25s, transform 0.25s',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = 'var(--border-active)';
+          e.currentTarget.style.boxShadow   = '0 0 28px var(--glow-blue)';
+          e.currentTarget.style.transform   = 'translateY(-4px)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = 'var(--border)';
+          e.currentTarget.style.boxShadow   = 'none';
+          e.currentTarget.style.transform   = 'translateY(0)';
+        }}
+      >
+        {/* Hex icon container */}
+        <div
+          className="hex-clip mb-5 flex items-center justify-center"
+          style={{
+            width: 52,
+            height: 52,
+            background: 'linear-gradient(135deg, rgba(37,99,235,0.18), rgba(124,58,237,0.18))',
+            border: '1px solid rgba(37,99,235,0.28)',
+            transition: 'transform 0.3s ease',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotate(30deg)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.transform = 'rotate(0deg)'; }}
+        >
+          <Icon
+            className="w-6 h-6 transition-colors duration-200"
+            style={{ color: 'var(--primary)' }}
+          />
+        </div>
+
+        <h3
+          className="text-lg font-orbitron mb-3"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          {title}
+        </h3>
+        <p
+          className="text-sm leading-relaxed"
+          style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-space)' }}
+        >
+          {desc}
+        </p>
+
+        {/* Corner accent */}
+        <div
+          className="absolute top-0 right-0 w-16 h-16 pointer-events-none"
+          style={{
+            background: 'linear-gradient(225deg, rgba(37,99,235,0.07) 0%, transparent 60%)',
+          }}
+        />
+      </div>
+    </motion.div>
+  );
+}
+
 export default function ServicesSection() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-dark py-20">
-      {/* Wavy Background Animation */}
-      <div className="absolute inset-0 overflow-hidden opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(14,165,233,0.1)_50%,transparent_75%)] bg-[length:400%_400%] animate-waves" />
-      </div>
+    <section
+      className="relative w-full py-24 overflow-hidden"
+      style={{ background: 'var(--background)' }}
+    >
+      {/* Hex grid bg */}
+      <div className="absolute inset-0 hex-bg pointer-events-none" style={{ opacity: 0.25 }} />
 
-      <div className="relative z-10 container mx-auto px-4">
-        {/* Section Heading */}
+      <div className="relative z-10 container mx-auto px-6 max-w-6xl">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-orbitron text-gradient mb-4">
-            Technical Services
-          </h2>
-          <p className="text-xl text-light/80 font-space max-w-2xl mx-auto">
+          <p className="eyebrow mb-3">// 003 &nbsp;&nbsp; WHAT I DO</p>
+          <h2 className="text-4xl md:text-5xl font-orbitron text-gradient">Technical Services</h2>
+          <p className="mt-4 max-w-xl mx-auto text-sm" style={{ color: 'var(--text-muted)' }}>
             Transforming complex requirements into elegant technical solutions
           </p>
         </motion.div>
 
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="relative group"
-            >
-              {/* Glowing Border */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-primary/30 to-accent/30 blur-xl opacity-0 group-hover:opacity-50 transition-opacity" />
-              
-              {/* Card Content */}
-              <div className="relative h-full bg-dark/50 backdrop-blur-lg rounded-2xl p-8 border border-primary/20 hover:border-primary/40 transition-all">
-                <div className="mb-6">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: index * 0.1 + 0.2 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    className="inline-block p-4 rounded-xl bg-primary/10"
-                  >
-                    {service.icon}
-                  </motion.div>
-                </div>
-                <h3 className="text-2xl font-orbitron text-primary mb-4">
-                  {service.title}
-                </h3>
-                <p className="text-light/80 font-space leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-            </motion.div>
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services.map((service, i) => (
+            <ServiceCard key={service.title} service={service} index={i} />
           ))}
         </div>
       </div>
