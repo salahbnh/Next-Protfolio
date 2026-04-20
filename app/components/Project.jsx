@@ -11,7 +11,7 @@ const projects = [
     image: "/ai-saas.png",
     description: "A commercial-grade SaaS template that gives developers a complete AI-powered web application out of the box. Includes a marketing site, authentication, subscription billing, admin panel, and multiple AI tools — all wired together and ready to deploy. Features multi-model AI chat with conversation history, AI Writer with 8 content templates, AI Image generator (DALL-E 3) with gallery, subscription billing with 3 tiers via Stripe, rate limiting, usage quotas, plan-based model access, and an admin panel with user management.",
     tools: ["Next.js 14", "TypeScript", "Tailwind CSS", "Prisma", "Neon Postgres", "Clerk", "Stripe", "Vercel AI SDK", "OpenAI", "Groq", "Anthropic", "Upstash Redis", "shadcn/ui"],
-    link: "https://ai-saas-chi-wheat.vercel.app/",
+    link: "https://ai-saas-phi-nine.vercel.app/",
   },
   {
     title: "Imaginify : AI Images Platform",
