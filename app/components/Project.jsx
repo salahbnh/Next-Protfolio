@@ -14,6 +14,13 @@ const projects = [
     link: "https://ai-saas-phi-nine.vercel.app/",
   },
   {
+    title: "Sassify — SaaS Template",
+    image: "/sassify.png",
+    description: "Production-ready SaaS landing page built with modern web technologies, featuring advanced scroll-triggered animations, glass morphism design, and fluid parallax effects across hero, features, pricing, testimonials, and CTA sections.",
+    tools: ["Next.js 14", "TypeScript", "Tailwind CSS", "shadcn/ui", "Clerk", "Stripe", "Prisma", "Resend", "React Email", "Framer Motion", "GSAP", "Lenis", "Drei", "MDX", "next-themes", "Lucide   React"],    
+    link: "https://sassify-alpha.vercel.app/",
+  },
+  {
     title: "Imaginify : AI Images Platform",
     gif: "/Imaginfy.gif",
     description: "Imaginify is a website for generating Images from input text with multiple model choices : SDXL(v1.0 pro, v0.9 prp, v1.6) and DallE. It include also AI Image modifications with an Input Image and a text prompt to describe the modifications. Add to this, users can upscale any giving image. The website also includes a community section 'Explore' to view the other user's generated images that they generated and choose to post it, with the name of the publisher, the prompt of the images and other configuration details of the Image prompt to inspire others. and users can interact by liking each other's images.",
