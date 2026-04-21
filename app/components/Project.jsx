@@ -16,7 +16,7 @@ const projects = [
   {
     title: "Sassify — SaaS Template",
     image: "/sassify.png",
-    description: "Production-ready SaaS landing page built with modern web technologies, featuring advanced scroll-triggered animations, glass morphism design, and fluid parallax effects across hero, features, pricing, testimonials, and CTA sections.",
+    description: "Sassify is a production-ready, full-stack SaaS template built with Next.js 14 App Router. It ships with a fully animated dark-first landing page — hero, features, pricing, testimonials, FAQ, and more — powered by Framer Motion and GSAP scroll animations with Lenis smooth scroll. The design language is modern dark cinema with glass morphism, fluid gradients, and micro-interactions throughout Beyond the landing page, it includes a complete multi-page application: dashboard, auth flows (Clerk), blog and docs powered by MDX, and a settings/billing area. Payments are handled via Stripe with checkout and webhooks, data persistence via Prisma + Postgres, and transactional emails via Resend and React Email. The UI is built on shadcn/ui with a custom component library of 20+ reusable primitives. Dark/light mode is supported out of the box.",
     tools: ["Next.js 14", "TypeScript", "Tailwind CSS", "shadcn/ui", "Clerk", "Stripe", "Prisma", "Resend", "React Email", "Framer Motion", "GSAP", "Lenis", "Drei", "MDX", "next-themes", "Lucide   React"],    
     link: "https://sassify-alpha.vercel.app/",
   },
