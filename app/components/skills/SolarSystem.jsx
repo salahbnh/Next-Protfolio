@@ -1,35 +1,25 @@
 'use client';
-import { Suspense, useRef, useState } from 'react';
+import { Suspense, useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useTexture } from '@react-three/drei';
 import SolarCore from './SolarCore';
 import { OrbitRing } from './OrbitRing';
 import AmbientDust from './AmbientDust';
+import { FRONTEND, BACKEND, TOOLS, ALL_ICONS } from './skillsData';
 
-const FRONTEND = [
-  { name: 'React',      icon: '/reactsjs.png' },
-  { name: 'Next.js',    icon: '/nextjs.png' },
-  { name: 'TypeScript', icon: '/typescript.png' },
-  { name: 'JavaScript', icon: '/js.png' },
-];
+// Kick off texture downloads as soon as this module loads, before the canvas
+// mounts, so the icons are ready (or cached) by first paint.
+ALL_ICONS.forEach((icon) => useTexture.preload(icon));
 
-const BACKEND = [
-  { name: 'Node.js',    icon: '/nodejs.png' },
-  { name: 'Java',       icon: '/java.png' },
-  { name: 'SpringBoot', icon: '/springboot.png' },
-  { name: 'Firebase',   icon: '/firebase.png' },
-];
+const FILTERS = ['ALL', 'FRONTEND', 'BACKEND', 'TOOLS'];
 
-const TOOLS = [
-  { name: 'MongoDB', icon: '/mongodb.png' },
-  { name: 'SQL',     icon: '/sql.png' },
-  { name: 'Git',     icon: '/git.png' },
-  { name: 'Unity',   icon: '/unity.png' },
-  { name: 'C',       icon: '/c.png' },
-  { name: 'C#',      icon: '/c-sharp.png' },
-  { name: 'C++',     icon: '/c++.png' },
-];
-
-const CATEGORIES = ['ALL', 'FRONTEND', 'BACKEND', 'TOOLS'];
+// Mounts inside <Suspense>; fires once all textures have resolved.
+function ReadySignal({ onReady }) {
+  useEffect(() => {
+    onReady?.();
+  }, [onReady]);
+  return null;
+}
 
 function AutoCamera({ scrollRef }) {
   const azimuthRef = useRef(0);
@@ -50,7 +40,7 @@ function AutoCamera({ scrollRef }) {
   return null;
 }
 
-export default function SolarSystem() {
+export default function SolarSystem({ onReady }) {
   const [activeCategory, setActiveCategory] = useState('ALL');
   const scrollRef = useRef(0);
   const scrollAttachedRef = useRef(false);
@@ -80,6 +70,7 @@ export default function SolarSystem() {
           <OrbitRing radius={9}  speed={0.22} skills={BACKEND}  dimmed={dimmed('BACKEND')} />
           <OrbitRing radius={13} speed={0.13} skills={TOOLS}    dimmed={dimmed('TOOLS')} />
           <AmbientDust />
+          <ReadySignal onReady={onReady} />
         </Suspense>
 
         <AutoCamera scrollRef={scrollRef} />
@@ -98,7 +89,7 @@ export default function SolarSystem() {
           pointerEvents: 'auto',
         }}
       >
-        {CATEGORIES.map((cat) => {
+        {FILTERS.map((cat) => {
           const isActive = activeCategory === cat;
           return (
             <button

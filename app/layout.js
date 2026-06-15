@@ -1,10 +1,8 @@
-import { Geist, Geist_Mono, Orbitron, Space_Grotesk, Rajdhani } from "next/font/google";
+import { Orbitron, Space_Grotesk, Rajdhani } from "next/font/google";
 import "./globals.css";
 import QuantumCursor from './components/cursor/QuantumCursor';
 import ScrollProgressBar from './components/ui/ScrollProgressBar';
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 const orbitron = Orbitron({ variable: "--font-orbitron", subsets: ["latin"], display: "swap" });
 const spaceGrotesk = Space_Grotesk({ variable: "--font-space", subsets: ["latin"], display: "swap" });
 const rajdhani = Rajdhani({
@@ -52,7 +50,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${spaceGrotesk.variable} ${rajdhani.variable} antialiased cursor-none`}
+        className={`${orbitron.variable} ${spaceGrotesk.variable} ${rajdhani.variable} antialiased cursor-none`}
       >
         <QuantumCursor />
         <ScrollProgressBar />

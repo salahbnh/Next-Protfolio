@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, memo, useCallback } from 'react';
+import { useState, useRef, useEffect, memo, useCallback } from 'react';
 import { XMarkIcon, ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -8,49 +8,55 @@ import Image from 'next/image';
 const projects = [
   {
     title: "NexusAI — AI SaaS Template",
-    image: "/ai-saas.png",
+    image: "/ai-saas.webp",
     description: "A commercial-grade SaaS template that gives developers a complete AI-powered web application out of the box. Includes a marketing site, authentication, subscription billing, admin panel, and multiple AI tools — all wired together and ready to deploy. Features multi-model AI chat with conversation history, AI Writer with 8 content templates, AI Image generator (DALL-E 3) with gallery, subscription billing with 3 tiers via Stripe, rate limiting, usage quotas, plan-based model access, and an admin panel with user management.",
     tools: ["Next.js 14", "TypeScript", "Tailwind CSS", "Prisma", "Neon Postgres", "Clerk", "Stripe", "Vercel AI SDK", "OpenAI", "Groq", "Anthropic", "Upstash Redis", "shadcn/ui"],
     link: "https://ai-saas-phi-nine.vercel.app/",
   },
   {
     title: "Sassify — SaaS Template",
-    image: "/sassify.png",
+    image: "/sassify.webp",
     description: "Sassify is a production-ready, full-stack SaaS template built with Next.js 14 App Router. It ships with a fully animated dark-first landing page — hero, features, pricing, testimonials, FAQ, and more — powered by Framer Motion and GSAP scroll animations with Lenis smooth scroll. The design language is modern dark cinema with glass morphism, fluid gradients, and micro-interactions throughout Beyond the landing page, it includes a complete multi-page application: dashboard, auth flows (Clerk), blog and docs powered by MDX, and a settings/billing area. Payments are handled via Stripe with checkout and webhooks, data persistence via Prisma + Postgres, and transactional emails via Resend and React Email. The UI is built on shadcn/ui with a custom component library of 20+ reusable primitives. Dark/light mode is supported out of the box.",
     tools: ["Next.js 14", "TypeScript", "Tailwind CSS", "shadcn/ui", "Clerk", "Stripe", "Prisma", "Resend", "React Email", "Framer Motion", "GSAP", "Lenis", "Drei", "MDX", "next-themes", "Lucide   React"],    
     link: "https://sassify-alpha.vercel.app/",
   },
   {
     title: "Imaginify : AI Images Platform",
-    gif: "/Imaginfy.gif",
+    video: "/Imaginfy.mp4",
+    videoWebm: "/Imaginfy.webm",
+    poster: "/Imaginfy-poster.webp",
     description: "Imaginify is a website for generating Images from input text with multiple model choices : SDXL(v1.0 pro, v0.9 prp, v1.6) and DallE. It include also AI Image modifications with an Input Image and a text prompt to describe the modifications. Add to this, users can upscale any giving image. The website also includes a community section 'Explore' to view the other user's generated images that they generated and choose to post it, with the name of the publisher, the prompt of the images and other configuration details of the Image prompt to inspire others. and users can interact by liking each other's images.",
     tools: ["NextJs", "Firebase", "Stripe", "Stable Diffusion APIs", "DallE API"],
     link: "#",
   },
   {
     title: "Spicy Barbershop",
-    image: "/barber.png",
+    image: "/barber.webp",
     description: "A modern and stylish website for a barbershop, allowing users to browse services, check availability, and book appointments online. Built with Next.js and deployed on Vercel.",
     tools: ["Next.js", "React", "Tailwind CSS", "Vercel"],
     link: "https://spicy-barbershop.vercel.app/",
   },
   {
     title: "MedVR",
-    image: "/medvr.png",
+    image: "/medvr.webp",
     description: "A modern clinic management platform that connects patients and doctors. It supports appointment booking, medical folder management, real-time notifications, and online payments. Built with React, Node.js, MongoDB, and Socket.IO.",
     tools: ["React", "Node.js", "Express", "MongoDB", "Socket.IO"],
     link: "https://my-app-kappa-gules-18.vercel.app/",
   },
   {
     title: "AI parking with ML agent",
-    gif: "/Ai_Parking.gif",
+    video: "/Ai_Parking.mp4",
+    videoWebm: "/Ai_Parking.webm",
+    poster: "/Ai_Parking-poster.webp",
     description: "An AI-powered Unity project utilizing reinforcement learning with Unity ML-Agents to train a virtual car to master parking skills. The agent learns optimal parking strategies through trial and error, improving its performance over time while avoiding collisions and adhering to realistic driving behavior.",
     tools: ["Unity Engine", "Unity ML-Agents Toolkit", "TensorFlow", "Python", "C#", "ONNX", "PyTorch", "TensorBoard"],
     link: "#",
   },
   {
     title: "Triple Pendulum simulation",
-    gif: "/TripplePendulum.gif",
+    video: "/TripplePendulum.mp4",
+    videoWebm: "/TripplePendulum.webm",
+    poster: "/TripplePendulum-poster.webp",
     description: "A Unity 3D project simulating a triple pendulum system using custom-built physics in C#. The simulation is based on mathematical models and scientific papers, bypassing Unity's built-in physics. Spheres represent the pendulum masses, and the system demonstrates chaotic behavior with sensitive dependence on initial conditions, leading to unpredictable motion dynamics.",
     tools: ["Unity 3D", "C#", "Research-Driven Mathematical Physics"],
     link: "#",
@@ -58,6 +64,8 @@ const projects = [
   {
     title: "E-commerce Dashboard",
     video: "/ecommerce-aymen.mp4",
+    videoWebm: "/ecommerce-aymen.webm",
+    poster: "/ecommerce-aymen-poster.webp",
     description: "An e-commerce platform with a production-ready backend: all CRUD operations and REST APIs for admin and client flows using Node.js (TypeScript) following a 3-layer hexagonal architecture. Features Stripe payment integration, admin statistics/metrics for inventory monitoring, and Redis-based caching. The admin dashboard is built with React.js. Everything is fully containerized with Docker.",
     tools: ["Node.js (TypeScript)", "Express.js", "MongoDB", "React.js", "Redis", "Stripe", "Docker"],
     link: "#",
@@ -186,32 +194,55 @@ function PlayOverlay() {
   );
 }
 
-// ─── Card variants ─────────────────────────────────────────────────────────────
-const ProjectCard = memo(function ProjectCard({ project, onClick }) {
-  const { ref, tilt, onMouseMove, onMouseLeave } = useTilt();
-  return (
-    <CardShell tilt={tilt} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} cardRef={ref} onClick={onClick}>
-      <div className="relative aspect-video rounded-lg overflow-hidden group">
-        <Image src={project.gif} alt={project.title} fill sizes="(max-width:768px) 100vw,(max-width:1200px) 50vw,33vw" style={{ objectFit: 'cover' }} className="rounded-lg" />
-        <div className="absolute inset-0 rounded-lg" style={{ background: 'rgba(5,7,15,0.15)', transition: 'background 0.2s' }} />
-        <MediaBadge label="GIF PREVIEW" />
-        <PlayOverlay />
-      </div>
-      <h3 className="mt-4 text-lg font-orbitron" style={{ color: 'var(--text-primary)' }}>{project.title}</h3>
-    </CardShell>
-  );
-});
+// ─── Looping preview video (plays only while on-screen) ──────────────────────────
+function PreviewVideo({ project, badge }) {
+  const videoRef = useRef(null);
 
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {});
+        } else {
+          el.pause();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div className="relative aspect-video rounded-lg overflow-hidden group">
+      <video
+        ref={videoRef}
+        className="w-full h-full object-cover rounded-lg"
+        poster={project.poster}
+        preload="metadata"
+        muted
+        loop
+        playsInline
+        autoPlay
+      >
+        {project.videoWebm && <source src={project.videoWebm} type="video/webm" />}
+        <source src={project.video} type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 rounded-lg" style={{ background: 'rgba(5,7,15,0.18)', transition: 'background 0.2s' }} />
+      <MediaBadge label={badge} />
+      <PlayOverlay />
+    </div>
+  );
+}
+
+// ─── Card variants ─────────────────────────────────────────────────────────────
 const ProjectVideoCard = memo(function ProjectVideoCard({ project, onClick }) {
   const { ref, tilt, onMouseMove, onMouseLeave } = useTilt();
   return (
     <CardShell tilt={tilt} onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} cardRef={ref} onClick={onClick}>
-      <div className="relative aspect-video rounded-lg overflow-hidden group">
-        <video src={project.video} className="w-full h-full object-cover rounded-lg" preload="metadata" muted playsInline />
-        <div className="absolute inset-0 rounded-lg" style={{ background: 'rgba(5,7,15,0.2)', transition: 'background 0.2s' }} />
-        <MediaBadge label="VIDEO DEMO" />
-        <PlayOverlay />
-      </div>
+      <PreviewVideo project={project} badge={project.badge || 'PREVIEW'} />
       <h3 className="mt-4 text-lg font-orbitron" style={{ color: 'var(--text-primary)' }}>{project.title}</h3>
     </CardShell>
   );
@@ -318,20 +349,23 @@ function ModalShell({ project, onClose, children }) {
 }
 
 // ─── Modal variants ────────────────────────────────────────────────────────────
-function ProjectModal({ project, onClose }) {
-  if (!project) return null;
-  return (
-    <ModalShell project={project} onClose={onClose}>
-      <Image src={project.gif} alt={project.title} fill unoptimized sizes="(max-width:768px) 100vw,50vw" style={{ objectFit: 'cover' }} className="rounded-xl" />
-    </ModalShell>
-  );
-}
-
 function ProjectVideoModal({ project, onClose }) {
   if (!project) return null;
   return (
     <ModalShell project={project} onClose={onClose}>
-      <video src={project.video} className="w-full h-full object-contain rounded-xl" controls autoPlay loop muted playsInline />
+      <video
+        className="w-full h-full object-contain rounded-xl"
+        poster={project.poster}
+        controls
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+      >
+        {project.videoWebm && <source src={project.videoWebm} type="video/webm" />}
+        <source src={project.video} type="video/mp4" />
+      </video>
     </ModalShell>
   );
 }
@@ -380,9 +414,7 @@ export default function Projects() {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {projects.map((project) => {
-            if (project.gif) {
-              return <ProjectCard    key={project.title} project={project} onClick={() => setSelectedProject(project)} />;
-            } else if (project.video) {
+            if (project.video) {
               return <ProjectVideoCard key={project.title} project={project} onClick={() => setSelectedProject(project)} />;
             } else {
               return <ProjectLinkCard  key={project.title} project={project} onClick={() => setSelectedProject(project)} />;
@@ -393,7 +425,6 @@ export default function Projects() {
         {/* Modals */}
         <AnimatePresence>
           {selectedProject && (
-            selectedProject.gif   ? <ProjectModal      project={selectedProject} onClose={() => setSelectedProject(null)} /> :
             selectedProject.video ? <ProjectVideoModal project={selectedProject} onClose={() => setSelectedProject(null)} /> :
                                     <ProjectImageModal project={selectedProject} onClose={() => setSelectedProject(null)} />
           )}

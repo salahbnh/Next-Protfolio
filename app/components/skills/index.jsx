@@ -2,7 +2,7 @@
 import { useInView } from 'react-intersection-observer';
 import dynamic from 'next/dynamic';
 
-const SolarSystem = dynamic(() => import('./SolarSystem'), { ssr: false });
+const SkillsScene = dynamic(() => import('./SkillsScene'), { ssr: false });
 
 export default function Skills() {
   const { ref, inView } = useInView({ threshold: 0.06, triggerOnce: false });
@@ -50,7 +50,7 @@ export default function Skills() {
           transition: 'opacity 1.2s ease 0.2s',
         }}
       >
-        <SolarSystem />
+        <SkillsScene />
       </div>
     </section>
   );
