@@ -1,9 +1,17 @@
 'use client';
+import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import StarField from './StarField';
+import Magnetic from './Magnetic';
 import { useQuantumDecode } from '../../hooks/useQuantumDecode';
 
 const TAGS = ['Web Development', 'Software Architecture', 'Game Prototyping', 'Cloud Solutions'];
+const ROLES = [
+  'Full-Stack Developer',
+  'Software Engineer',
+  'Cloud Solutions Architect',
+  'Game Prototyper',
+];
 
 function HexTag({ label }) {
   return (
@@ -29,30 +37,118 @@ function HexTag({ label }) {
   );
 }
 
+// Subtitle that re-scrambles into a new role every few seconds.
+function RotatingSubtitle() {
+  const [i, setI] = useState(0);
+  const text = useQuantumDecode(ROLES[i], {
+    startDelay: i === 0 ? 1700 : 0,
+    charDelay: 28,
+    scrambleDuration: 200,
+  });
+
+  useEffect(() => {
+    const t = setTimeout(() => setI((p) => (p + 1) % ROLES.length), i === 0 ? 4400 : 2900);
+    return () => clearTimeout(t);
+  }, [i]);
+
+  return <>{text}</>;
+}
+
 export default function Hero() {
-  const headingDecoded  = useQuantumDecode("Hello, I'm Salah Bounouh", { startDelay: 200, charDelay: 55, scrambleDuration: 320 });
-  const subtitleDecoded = useQuantumDecode("Full-Stack Developer & Software Engineer",  { startDelay: 1700, charDelay: 28, scrambleDuration: 200 });
+  const sectionRef = useRef(null);
+  const headingDecoded = useQuantumDecode("Hello, I'm Salah Bounouh", { startDelay: 200, charDelay: 55, scrambleDuration: 320 });
+
+  // Pointer/scroll/tilt parallax → drives CSS vars the layers read via calc().
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    let raf = 0;
+    const target = { px: 0, py: 0, mx: el.clientWidth / 2, my: el.clientHeight * 0.4 };
+
+    const apply = () => {
+      el.style.setProperty('--px', String(target.px));
+      el.style.setProperty('--py', String(target.py));
+      el.style.setProperty('--mx', `${target.mx}px`);
+      el.style.setProperty('--my', `${target.my}px`);
+      raf = 0;
+    };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(apply); };
+
+    const onMove = (e) => {
+      const r = el.getBoundingClientRect();
+      target.px = ((e.clientX - r.left) / r.width - 0.5) * 2;
+      target.py = ((e.clientY - r.top) / r.height - 0.5) * 2;
+      target.mx = e.clientX - r.left;
+      target.my = e.clientY - r.top;
+      schedule();
+    };
+    const onTilt = (ev) => {
+      if (ev.gamma == null) return;
+      target.px = Math.max(-1, Math.min(1, ev.gamma / 30));
+      target.py = Math.max(-1, Math.min(1, (ev.beta - 45) / 30));
+      schedule();
+    };
+
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('deviceorientation', onTilt, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('deviceorientation', onTilt);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   return (
-    <section className="h-screen relative overflow-hidden hex-bg">
+    <section
+      ref={sectionRef}
+      className="h-screen relative overflow-hidden"
+      style={{ '--px': 0, '--py': 0, '--mx': '50%', '--my': '40%' }}
+    >
+      {/* Hex grid layer — parallaxes opposite the cursor (deep background) */}
+      <div
+        className="absolute inset-0 hex-bg pointer-events-none"
+        style={{
+          zIndex: 0,
+          transform: 'translate3d(calc(var(--px) * -10px), calc(var(--py) * -10px), 0) scale(1.06)',
+          transition: 'transform 0.2s ease-out',
+        }}
+      />
+
+      {/* Canvas 2D starfield (handles its own internal parallax) */}
+      <StarField />
+
       {/* Ambient radial gradient overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           zIndex: 1,
           background: 'radial-gradient(ellipse 70% 55% at 50% 40%, rgba(5,15,40,0.82) 0%, rgba(5,7,15,0.65) 55%, transparent 100%)',
+          transform: 'translate3d(calc(var(--px) * -6px), calc(var(--py) * -6px), 0)',
+          transition: 'transform 0.2s ease-out',
         }}
       />
 
-      {/* Canvas 2D starfield */}
-      <StarField />
+      {/* Cursor spotlight */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          zIndex: 1,
+          background: 'radial-gradient(420px circle at var(--mx) var(--my), rgba(59,130,246,0.10), transparent 70%)',
+        }}
+      />
 
       {/* Content */}
       <div
         className="relative h-full flex items-center justify-center text-center px-4"
         style={{ zIndex: 2 }}
       >
-        <div className="max-w-4xl mx-auto mt-16 space-y-6">
+        <div
+          className="max-w-4xl mx-auto mt-16 space-y-6"
+          style={{
+            transform: 'translate3d(calc(var(--px) * 12px), calc(var(--py) * 12px), 0)',
+            transition: 'transform 0.2s ease-out',
+          }}
+        >
 
           {/* Availability badge */}
           <motion.div
@@ -98,7 +194,7 @@ export default function Hero() {
             // 000 &nbsp;&nbsp; WELCOME
           </motion.p>
 
-          {/* Main heading — quantum decoded */}
+          {/* Main heading — quantum decoded, with a one-time sheen sweep */}
           <h1
             className="text-3xl md:text-4xl lg:text-5xl leading-tight"
             style={{
@@ -108,10 +204,12 @@ export default function Hero() {
               fontWeight: 700,
             }}
           >
-            {headingDecoded}
+            <span className="hero-sheen" style={{ display: 'inline-block' }}>
+              {headingDecoded}
+            </span>
           </h1>
 
-          {/* Subtitle — decoded after heading */}
+          {/* Subtitle — decodes, then rotates through roles */}
           <p
             className="text-xl md:text-2xl text-gradient"
             style={{
@@ -120,7 +218,7 @@ export default function Hero() {
               fontWeight: 600,
             }}
           >
-            {subtitleDecoded}
+            <RotatingSubtitle />
           </p>
 
           {/* Description */}
@@ -152,69 +250,73 @@ export default function Hero() {
             transition={{ delay: 3.5, duration: 0.5 }}
             className="flex flex-wrap justify-center gap-4"
           >
-            <a href="#projects">
-              <button
-                className="relative px-10 py-4 cursor-pointer"
-                style={{
-                  fontFamily: 'var(--font-orbitron)',
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.18em',
-                  background: 'linear-gradient(135deg, rgba(37,99,235,0.14), rgba(124,58,237,0.14))',
-                  border: '1px solid rgba(37,99,235,0.4)',
-                  clipPath: 'polygon(14px 0%, calc(100% - 14px) 0%, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0% 50%)',
-                  color: 'var(--text-primary)',
-                  transition: 'background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.2s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(37,99,235,0.28), rgba(124,58,237,0.28))';
-                  e.currentTarget.style.borderColor = 'rgba(37,99,235,0.7)';
-                  e.currentTarget.style.boxShadow = '0 0 28px rgba(37,99,235,0.3), 0 0 60px rgba(124,58,237,0.15)';
-                  e.currentTarget.style.transform = 'scale(1.04)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'linear-gradient(135deg, rgba(37,99,235,0.14), rgba(124,58,237,0.14))';
-                  e.currentTarget.style.borderColor = 'rgba(37,99,235,0.4)';
-                  e.currentTarget.style.boxShadow = 'none';
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-                onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.97)'; }}
-                onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1.04)'; }}
-              >
-                SEE MY WORK
-              </button>
-            </a>
+            <Magnetic>
+              <a href="#projects">
+                <button
+                  className="relative px-10 py-4 cursor-pointer"
+                  style={{
+                    fontFamily: 'var(--font-orbitron)',
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.18em',
+                    background: 'linear-gradient(135deg, rgba(37,99,235,0.14), rgba(124,58,237,0.14))',
+                    border: '1px solid rgba(37,99,235,0.4)',
+                    clipPath: 'polygon(14px 0%, calc(100% - 14px) 0%, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0% 50%)',
+                    color: 'var(--text-primary)',
+                    transition: 'background 0.25s, border-color 0.25s, box-shadow 0.25s, transform 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, rgba(37,99,235,0.28), rgba(124,58,237,0.28))';
+                    e.currentTarget.style.borderColor = 'rgba(37,99,235,0.7)';
+                    e.currentTarget.style.boxShadow = '0 0 28px rgba(37,99,235,0.3), 0 0 60px rgba(124,58,237,0.15)';
+                    e.currentTarget.style.transform = 'scale(1.04)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'linear-gradient(135deg, rgba(37,99,235,0.14), rgba(124,58,237,0.14))';
+                    e.currentTarget.style.borderColor = 'rgba(37,99,235,0.4)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                  onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.97)'; }}
+                  onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1.04)'; }}
+                >
+                  SEE MY WORK
+                </button>
+              </a>
+            </Magnetic>
 
-            <a href="/SalahBounouh_CV.pdf" download>
-              <button
-                className="relative px-10 py-4 cursor-pointer"
-                style={{
-                  fontFamily: 'var(--font-orbitron)',
-                  fontSize: '0.8rem',
-                  letterSpacing: '0.18em',
-                  background: 'transparent',
-                  border: '1px solid rgba(37,99,235,0.3)',
-                  clipPath: 'polygon(14px 0%, calc(100% - 14px) 0%, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0% 50%)',
-                  color: 'var(--text-secondary)',
-                  transition: 'border-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s ease',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(37,99,235,0.6)';
-                  e.currentTarget.style.color = 'var(--text-primary)';
-                  e.currentTarget.style.boxShadow = '0 0 18px rgba(37,99,235,0.2)';
-                  e.currentTarget.style.transform = 'scale(1.04)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = 'rgba(37,99,235,0.3)';
-                  e.currentTarget.style.color = 'var(--text-secondary)';
-                  e.currentTarget.style.boxShadow = 'none';
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-                onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.97)'; }}
-                onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1.04)'; }}
-              >
-                DOWNLOAD CV
-              </button>
-            </a>
+            <Magnetic>
+              <a href="/SalahBounouh_CV.pdf" download>
+                <button
+                  className="relative px-10 py-4 cursor-pointer"
+                  style={{
+                    fontFamily: 'var(--font-orbitron)',
+                    fontSize: '0.8rem',
+                    letterSpacing: '0.18em',
+                    background: 'transparent',
+                    border: '1px solid rgba(37,99,235,0.3)',
+                    clipPath: 'polygon(14px 0%, calc(100% - 14px) 0%, 100% 50%, calc(100% - 14px) 100%, 14px 100%, 0% 50%)',
+                    color: 'var(--text-secondary)',
+                    transition: 'border-color 0.25s, color 0.25s, box-shadow 0.25s, transform 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(37,99,235,0.6)';
+                    e.currentTarget.style.color = 'var(--text-primary)';
+                    e.currentTarget.style.boxShadow = '0 0 18px rgba(37,99,235,0.2)';
+                    e.currentTarget.style.transform = 'scale(1.04)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(37,99,235,0.3)';
+                    e.currentTarget.style.color = 'var(--text-secondary)';
+                    e.currentTarget.style.boxShadow = 'none';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                  onMouseDown={(e) => { e.currentTarget.style.transform = 'scale(0.97)'; }}
+                  onMouseUp={(e) => { e.currentTarget.style.transform = 'scale(1.04)'; }}
+                >
+                  DOWNLOAD CV
+                </button>
+              </a>
+            </Magnetic>
           </motion.div>
         </div>
       </div>
