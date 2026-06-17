@@ -44,6 +44,23 @@ body {
   font-family: var(--font-space);
   line-height: 1.6;
   overflow-x: hidden;
+  /* Simple blue arrow cursor (hotspot at the tip). `cursor` inherits, so this
+     cascades to children; text fields are restored to a caret below. */
+  cursor: url("/cursor.svg") 5 3, default;
+}
+
+a,
+button,
+[data-magnetic],
+[role="button"],
+label[for] {
+  cursor: url("/cursor.svg") 5 3, pointer;
+}
+
+input,
+textarea,
+select {
+  cursor: text;
 }
 
 html {

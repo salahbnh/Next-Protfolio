@@ -1,6 +1,5 @@
 import { Orbitron, Space_Grotesk, Rajdhani } from "next/font/google";
 import "./globals.css";
-import QuantumCursor from './components/cursor/QuantumCursor';
 import ScrollProgressBar from './components/ui/ScrollProgressBar';
 
 const orbitron = Orbitron({ variable: "--font-orbitron", subsets: ["latin"], display: "swap" });
@@ -50,9 +49,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${orbitron.variable} ${spaceGrotesk.variable} ${rajdhani.variable} antialiased cursor-none`}
+        className={`${orbitron.variable} ${spaceGrotesk.variable} ${rajdhani.variable} antialiased`}
       >
-        <QuantumCursor />
         <ScrollProgressBar />
         {children}
       </body>

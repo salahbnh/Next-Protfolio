@@ -1,11 +1,23 @@
 'use client';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import dynamic from 'next/dynamic';
 
-const SkillsScene = dynamic(() => import('./SkillsScene'), { ssr: false });
+const loadScene = () => import('./SkillsScene');
+const SkillsScene = dynamic(loadScene, { ssr: false });
 
 export default function Skills() {
-  const { ref, inView } = useInView({ threshold: 0.06, triggerOnce: false });
+  // `triggerOnce` + `rootMargin` mounts the scene ~one screen early and keeps it
+  // mounted (we never tear down the GL context on scroll-away).
+  const { ref, inView } = useInView({ threshold: 0, rootMargin: '700px 0px', triggerOnce: true });
+
+  // Warm the 3D chunk on idle, AFTER the hero has had the network to itself.
+  useEffect(() => {
+    const ric = window.requestIdleCallback || ((cb) => setTimeout(cb, 1200));
+    const cancel = window.cancelIdleCallback || clearTimeout;
+    const id = ric(() => loadScene());
+    return () => cancel(id);
+  }, []);
 
   return (
     <section
@@ -50,7 +62,7 @@ export default function Skills() {
           transition: 'opacity 1.2s ease 0.2s',
         }}
       >
-        <SkillsScene />
+        {inView && <SkillsScene />}
       </div>
     </section>
   );
